@@ -1,0 +1,27 @@
+
+<div>
+    <h2><span>Device</span> {{vm.device.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Nome</span></dt>
+        <dd>
+            <span>{{vm.device.nome}}</span>
+        </dd>
+        <dt><span data-translate="enviromentBoxApp.device.id_empresa">Id Empresa</span></dt>
+        <dd>
+            <a ui-sref="empresa-detail({id:vm.device.id_empresa.id})">{{vm.device.id_empresa.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="device-detail.edit({id:vm.device.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

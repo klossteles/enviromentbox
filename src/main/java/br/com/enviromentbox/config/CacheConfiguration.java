@@ -43,6 +43,7 @@ public class CacheConfiguration {
             cm.createCache(br.com.enviromentbox.domain.PersistentToken.class.getName(), jcacheConfiguration);
             cm.createCache(br.com.enviromentbox.domain.User.class.getName() + ".persistentTokens", jcacheConfiguration);
             cm.createCache(br.com.enviromentbox.domain.Empresa.class.getName(), jcacheConfiguration);
+            cm.createCache(br.com.enviromentbox.domain.Device.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
