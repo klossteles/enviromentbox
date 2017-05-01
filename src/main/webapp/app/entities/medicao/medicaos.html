@@ -1,0 +1,64 @@
+<div>
+    <h2>Medicaos</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="medicao.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Medicao
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Valor</span></th>
+                    <th><span>Sensor</span></th>
+                    <th><span>Device</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="medicao in vm.medicaos track by medicao.id">
+                    <td><a ui-sref="medicao-detail({id:medicao.id})">{{medicao.id}}</a></td>
+                    <td>{{medicao.valor}}</td>
+                    <td>
+                        <a ui-sref="sensor-detail({id:medicao.sensor.id})">{{medicao.sensor.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="device-detail({id:medicao.device.id})">{{medicao.device.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="medicao-detail({id:medicao.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="medicao.edit({id:medicao.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="medicao.delete({id:medicao.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

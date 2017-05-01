@@ -1,0 +1,31 @@
+
+<div>
+    <h2><span>Medicao</span> {{vm.medicao.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Valor</span></dt>
+        <dd>
+            <span>{{vm.medicao.valor}}</span>
+        </dd>
+        <dt><span>Sensor</span></dt>
+        <dd>
+            <a ui-sref="sensor-detail({id:vm.medicao.sensor.id})">{{vm.medicao.sensor.id}}</a>
+        </dd>
+        <dt><span>Device</span></dt>
+        <dd>
+            <a ui-sref="device-detail({id:vm.medicao.device.id})">{{vm.medicao.device.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="medicao-detail.edit({id:vm.medicao.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>
