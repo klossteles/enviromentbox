@@ -1,0 +1,14 @@
+version: '2'
+services:
+    enviromentbox-app:
+        image: enviromentbox
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://enviromentbox-postgresql:5432/EnviromentBox
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    enviromentbox-postgresql:
+        extends:
+            file: postgresql.yml
+            service: enviromentbox-postgresql
