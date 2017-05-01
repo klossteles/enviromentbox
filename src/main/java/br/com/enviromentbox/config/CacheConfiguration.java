@@ -46,6 +46,7 @@ public class CacheConfiguration {
             cm.createCache(br.com.enviromentbox.domain.Device.class.getName(), jcacheConfiguration);
             cm.createCache(br.com.enviromentbox.domain.Sensor.class.getName(), jcacheConfiguration);
             cm.createCache(br.com.enviromentbox.domain.Medicao.class.getName(), jcacheConfiguration);
+            cm.createCache(br.com.enviromentbox.domain.Cargo.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

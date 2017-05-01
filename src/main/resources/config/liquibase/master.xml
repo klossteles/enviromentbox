@@ -9,6 +9,7 @@
     <include file="classpath:config/liquibase/changelog/20170501174147_added_entity_Device.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170501174544_added_entity_Sensor.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170501175200_added_entity_Medicao.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20170501185746_added_entity_Cargo.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20170501174147_added_entity_constraints_Device.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20170501174544_added_entity_constraints_Sensor.xml" relativeToChangelogFile="false"/>
