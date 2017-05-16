@@ -3,6 +3,7 @@ package br.com.enviromentbox;
 import br.com.enviromentbox.config.ApplicationProperties;
 import br.com.enviromentbox.config.DefaultProfileUtil;
 
+import br.com.enviromentbox.domain.WorkerProcess;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -60,7 +61,7 @@ public class EnviromentBoxApp {
      * @param args the command line arguments
      * @throws UnknownHostException if the local host name could not be resolved into an address
      */
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(EnviromentBoxApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
@@ -80,5 +81,8 @@ public class EnviromentBoxApp {
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"),
             env.getActiveProfiles());
+
+        WorkerProcess workerProcess = new WorkerProcess();
+        workerProcess.main(args);
     }
 }
