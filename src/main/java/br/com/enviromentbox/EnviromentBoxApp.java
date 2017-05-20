@@ -2,14 +2,12 @@ package br.com.enviromentbox;
 
 import br.com.enviromentbox.config.ApplicationProperties;
 import br.com.enviromentbox.config.DefaultProfileUtil;
-
-import br.com.enviromentbox.domain.WorkerProcess;
 import io.github.jhipster.config.JHipsterConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.*;
+import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -82,7 +80,5 @@ public class EnviromentBoxApp {
             env.getProperty("server.port"),
             env.getActiveProfiles());
 
-        WorkerProcess workerProcess = new WorkerProcess();
-        workerProcess.main(args);
     }
 }

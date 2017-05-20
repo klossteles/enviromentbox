@@ -1,10 +1,7 @@
 package br.com.enviromentbox.repository;
 
 import br.com.enviromentbox.domain.Medicao;
-
-import org.springframework.data.jpa.repository.*;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Spring Data JPA repository for the Medicao entity.
