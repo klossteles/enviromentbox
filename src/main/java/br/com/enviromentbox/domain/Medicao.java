@@ -4,9 +4,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -35,6 +36,10 @@ public class Medicao implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     private Device device;
+
+    @NotNull
+    @Column(name = "data_hora_medicao", nullable = false)
+    private Timestamp data_hora_medicao;
 
     public Long getId() {
         return id;
@@ -81,6 +86,15 @@ public class Medicao implements Serializable {
 
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    private Timestamp getDataHoraMedicao(){
+        return data_hora_medicao;
+    }
+
+
+    public void setDataHoraMedicao(Timestamp data_hora_medicao){
+        this.data_hora_medicao = data_hora_medicao;
     }
 
     @Override

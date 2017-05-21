@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Kloss Teles on 16/05/2017.
@@ -34,7 +38,7 @@ public class MedicaoServiceImpl implements MedicaoService {
             index = strArr[1].indexOf(":");
             idSensor = new Integer(strArr[1].substring(index + 1, strArr[1].length()));
         }
-        if (strArr[2].contains("valor")) {
+        if (strArr[2].contains("valor_medicao")) {
             index = strArr[2].indexOf(":");
             valor = new BigDecimal(strArr[2].substring(index + 1, strArr[2].length()).toString());
         }
@@ -47,6 +51,19 @@ public class MedicaoServiceImpl implements MedicaoService {
         medicao.setValor(valor);
         medicao.setDevice(device);
         medicao.setSensor(sensor);
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        medicao.setDataHoraMedicao(new Timestamp(date.getTime()));
         medicaoRepository.save(medicao);
+    }
+
+    @Override
+    public List<Medicao> consultaMedicoesByDeviceId(Long device_id) {
+        return medicaoRepository.consultaMedicoesByDeviceId(device_id);
+    }
+
+    @Override
+    public List<Medicao> consultaMedicoesFiltradas(Long device_id, Timestamp data_hora_inicial, Timestamp data_hora_final) {
+        return medicaoRepository.consultaMedicoesFiltradas(device_id,data_hora_inicial,data_hora_inicial);
     }
 }
