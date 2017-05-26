@@ -4,11 +4,7 @@ import br.com.enviromentbox.domain.Device;
 import br.com.enviromentbox.domain.Medicao;
 import br.com.enviromentbox.domain.Sensor;
 import br.com.enviromentbox.repository.MedicaoRepository;
-import com.sun.beans.decoder.ValueObject;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,10 +1,7 @@
 package br.com.enviromentbox.service;
 
 import br.com.enviromentbox.domain.Medicao;
-import com.sun.beans.decoder.ValueObject;
-import org.json.JSONException;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 

@@ -37,7 +37,7 @@ public class MedicaoController {
         return medicaoService.consultaMedicoesByDeviceId(device_id.longValue());
     }
 
-    @RequestMapping(value = "/consultaMedicoesFiltradas/{device_id}/{data_hora_medicao_inicial}/{data_hora_medicao_final}", method = RequestMethod.GET)
+    @RequestMapping(value = "/consultaM edicoesFiltradas/{device_id}/{data_hora_medicao_inicial}/{data_hora_medicao_final}", method = RequestMethod.GET)
     public List<Medicao> consultaMedicoesFiltradas(@PathVariable("device_id") Long device_id, @PathVariable("data_hora_medicao_inicial") Timestamp dataHoraMedicaoInicial, @PathVariable("data_hora_medicao_final") Timestamp dataHoraMedicaoFinal) {
         return medicaoService.consultaMedicoesFiltradas(device_id.longValue(), dataHoraMedicaoInicial, dataHoraMedicaoFinal);
     }
