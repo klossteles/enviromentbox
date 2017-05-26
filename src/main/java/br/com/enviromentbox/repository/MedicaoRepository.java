@@ -1,12 +1,10 @@
 package br.com.enviromentbox.repository;
 
 import br.com.enviromentbox.domain.Medicao;
-import com.sun.beans.decoder.ValueObject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
