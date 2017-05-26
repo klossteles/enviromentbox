@@ -2,6 +2,7 @@ package br.com.enviromentbox.controller;
 
 import br.com.enviromentbox.domain.Medicao;
 import br.com.enviromentbox.service.MedicaoService;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,12 @@ public class MedicaoController {
     }
 
     @RequestMapping(value = "/consultaMedicoesFiltradas/{device_id}/{data_hora_medicao_inicial}/{data_hora_medicao_final}", method = RequestMethod.GET)
-    public List<Medicao> consultaMedicoesFiltradas(@PathVariable("device_id") Long device_id, @PathVariable("data_hora_medicao_inicial")Timestamp dataHoraMedicaoInicial, @PathVariable("data_hora_medicao_final") Timestamp dataHoraMedicaoFinal ){
-        return medicaoService.consultaMedicoesFiltradas(device_id.longValue(),dataHoraMedicaoInicial,dataHoraMedicaoFinal);
+    public List<Medicao> consultaMedicoesFiltradas(@PathVariable("device_id") Long device_id, @PathVariable("data_hora_medicao_inicial") Timestamp dataHoraMedicaoInicial, @PathVariable("data_hora_medicao_final") Timestamp dataHoraMedicaoFinal) {
+        return medicaoService.consultaMedicoesFiltradas(device_id.longValue(), dataHoraMedicaoInicial, dataHoraMedicaoFinal);
+    }
+
+    @RequestMapping(value = "/consultarDadosMedicoesDevice/{device_id}", method = RequestMethod.GET)
+    public String consultaDadosMedicoesDevice(@PathVariable("device_id") Long device_id) throws JSONException {
+        return medicaoService.consultaDadosMedicoesDevice(device_id.longValue());
     }
 }
