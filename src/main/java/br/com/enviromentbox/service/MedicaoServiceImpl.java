@@ -4,7 +4,11 @@ import br.com.enviromentbox.domain.Device;
 import br.com.enviromentbox.domain.Medicao;
 import br.com.enviromentbox.domain.Sensor;
 import br.com.enviromentbox.repository.MedicaoRepository;
+import com.sun.beans.decoder.ValueObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +68,17 @@ public class MedicaoServiceImpl implements MedicaoService {
 
     @Override
     public List<Medicao> consultaMedicoesFiltradas(Long device_id, Timestamp data_hora_inicial, Timestamp data_hora_final) {
-        return medicaoRepository.consultaMedicoesFiltradas(device_id,data_hora_inicial,data_hora_inicial);
+        return medicaoRepository.consultaMedicoesFiltradas(device_id, data_hora_inicial, data_hora_final);
+    }
+
+    @Override
+    public String consultaDadosMedicoesDevice(Long device_id) {
+        StringBuilder strBldr = new StringBuilder();
+        strBldr.append("MEDIA:").append(medicaoRepository.consultarMediaMedicaoDevice(device_id)).append(";");
+        strBldr.append("MIN:").append(medicaoRepository.consultarMinMedicaoDevice(device_id)).append(";");
+        strBldr.append("MAX:").append(medicaoRepository.consultarMaxMedicaoDevice(device_id)).append(";");
+        strBldr.append("DESVIO_PADRAO:").append(medicaoRepository.consultarStddevMedicaoDevice(device_id)).append(";");
+        strBldr.append("VARIANCE:").append(medicaoRepository.consultarVarianceMedicaoDevice(device_id)).append(";");
+        return strBldr.toString();
     }
 }
