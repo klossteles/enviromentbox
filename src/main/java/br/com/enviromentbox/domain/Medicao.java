@@ -88,14 +88,12 @@ public class Medicao implements Serializable {
         this.device = device;
     }
 
-    private Timestamp getDataHoraMedicao(){
+    private Timestamp getData_hora_medicao(){
         return data_hora_medicao;
     }
 
 
-    public void setDataHoraMedicao(Timestamp data_hora_medicao){
-        this.data_hora_medicao = data_hora_medicao;
-    }
+    public void setData_hora_medicao(Timestamp data_hora_medicao){ this.data_hora_medicao = data_hora_medicao; }
 
     @Override
     public boolean equals(Object o) {

@@ -4,12 +4,8 @@ import br.com.enviromentbox.domain.Medicao;
 import br.com.enviromentbox.service.MedicaoService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -21,29 +17,23 @@ public class MedicaoController {
     @Autowired
     MedicaoService medicaoService;
 
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public void salvarStr(String message) {
-//        String message = "id_device:1151;id_sensor:1202;valor_medicao:2121";
-//        medicaoService.salvarStr(message);
-//    }
-
-    @RequestMapping(value = "/teste", method = RequestMethod.GET)
-    public String hello() {
-        return "Giovanni Goy";
-    }
-
-    @RequestMapping(value = "/consultaMediaByDeviceId/{device_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/consultaMedicoesByDeviceId/{device_id}", method = RequestMethod.GET)
     public List<Medicao> consultaMedicoesByDeviceId(@PathVariable("device_id") Long device_id) {
         return medicaoService.consultaMedicoesByDeviceId(device_id.longValue());
     }
 
-    @RequestMapping(value = "/consultaM edicoesFiltradas/{device_id}/{data_hora_medicao_inicial}/{data_hora_medicao_final}", method = RequestMethod.GET)
-    public List<Medicao> consultaMedicoesFiltradas(@PathVariable("device_id") Long device_id, @PathVariable("data_hora_medicao_inicial") Timestamp dataHoraMedicaoInicial, @PathVariable("data_hora_medicao_final") Timestamp dataHoraMedicaoFinal) {
-        return medicaoService.consultaMedicoesFiltradas(device_id.longValue(), dataHoraMedicaoInicial, dataHoraMedicaoFinal);
+    @RequestMapping(value = "/consultarMedicoesFiltradas/{device_id}/{sensor_id}/{data_hora_medicao_inicial}/{data_hora_medicao_final}", method = RequestMethod.GET)
+    public String consultarMedicoesFiltradas(@PathVariable("device_id") Long device_id, @PathVariable("sensor_id") Long sensor_id, @PathVariable("data_hora_medicao_inicial") String dataMedicaoInicial, @PathVariable("data_hora_medicao_final") String dataMedicaoFinal) {
+        return medicaoService.consultarMedicoesFiltradas(device_id.longValue(), sensor_id.longValue(), dataMedicaoInicial, dataMedicaoFinal);
     }
 
-    @RequestMapping(value = "/consultarDadosMedicoesDevice/{device_id}", method = RequestMethod.GET)
-    public String consultaDadosMedicoesDevice(@PathVariable("device_id") Long device_id) throws JSONException {
-        return medicaoService.consultaDadosMedicoesDevice(device_id.longValue());
+    @RequestMapping(value = "/consultarDadosMedicoesDevice/{device_id}/{data_inicial}/{data_final}", method = RequestMethod.GET)
+    public String consultaDadosMedicoesDevice(@PathVariable("device_id") Long device_id, @PathVariable("data_inicial") String data_hora_inicial, @PathVariable("data_final") String data_hora_final){
+        return medicaoService.consultaDadosMedicoesDevice(device_id.longValue(), data_hora_inicial, data_hora_final);
+    }
+
+    @RequestMapping(value = "/consultarDadosMedicoesBySensor/{device_id}/{sensor_id}", method = RequestMethod.GET)
+    public String consultarDadosMedicoesBySensor(@PathVariable("device_id") Long device_id, @PathVariable("sensor_id") Long sensor_id){
+        return  medicaoService.consultarDadosMedicoesBySensor(device_id.longValue(), sensor_id.longValue());
     }
 }

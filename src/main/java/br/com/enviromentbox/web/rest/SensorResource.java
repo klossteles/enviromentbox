@@ -1,10 +1,9 @@
 package br.com.enviromentbox.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import br.com.enviromentbox.domain.Sensor;
-
 import br.com.enviromentbox.repository.SensorRepository;
 import br.com.enviromentbox.web.rest.util.HeaderUtil;
+import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class SensorResource {
     private final Logger log = LoggerFactory.getLogger(SensorResource.class);
 
     private static final String ENTITY_NAME = "sensor";
-        
+
     private final SensorRepository sensorRepository;
 
     public SensorResource(SensorRepository sensorRepository) {
