@@ -2,7 +2,6 @@ package br.com.enviromentbox.service;
 
 import br.com.enviromentbox.domain.Medicao;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -13,8 +12,10 @@ public interface MedicaoService {
 
     List<Medicao> consultaMedicoesByDeviceId(Long device_id);
 
-    List<Medicao> consultaMedicoesFiltradas(Long device_id, Timestamp data_hora_inicial, Timestamp data_hora_final);
+    String consultarMedicoesFiltradas(Long device_id, Long sensor_id, String data_inicial, String data_final);
 
-    String consultaDadosMedicoesDevice(Long device_id);
+    String consultaDadosMedicoesDevice(Long device_id, String dataHoraMedicaoInicial, String dataHoraMedicaoFinal);
+
+    String consultarDadosMedicoesBySensor(Long device_id, Long sensor_id);
 }
 
