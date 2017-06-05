@@ -32,6 +32,9 @@ public class MedicaoServiceImpl implements MedicaoService {
     @Autowired
     private  SensorRepository sensorRepository;
 
+    @Autowired
+    private PushyAPI pushyAPI;
+
     @Override
     @Transactional
     public void salvarStr(String str) {
@@ -65,6 +68,8 @@ public class MedicaoServiceImpl implements MedicaoService {
         Date date = cal.getTime();
         medicao.setData_hora_medicao(new Timestamp(date.getTime()));
         medicaoRepository.save(medicao);
+
+//        pushyAPI.sendSamplePush();
     }
 
     @Override
