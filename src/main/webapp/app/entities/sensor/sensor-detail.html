@@ -4,13 +4,13 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span>Nome</span></dt>
-        <dd>
-            <span>{{vm.sensor.nome}}</span>
-        </dd>
         <dt><span data-translate="enviromentBoxApp.sensor.id_device">Id Device</span></dt>
         <dd>
             <a ui-sref="device-detail({id:vm.sensor.id_device.id})">{{vm.sensor.id_device.id}}</a>
+        </dd>
+        <dt><span>Tipo Sensor</span></dt>
+        <dd>
+            <a ui-sref="tipo-sensor-detail({id:vm.sensor.tipoSensor.id})">{{vm.sensor.tipoSensor.id}}</a>
         </dd>
     </dl>
 

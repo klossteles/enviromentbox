@@ -13,26 +13,6 @@
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.sensor.id" readonly />
         </div>
-        <div class="form-group">
-            <label class="control-label" for="field_nome">Nome</label>
-            <input type="text" class="form-control" name="nome" id="field_nome"
-                    ng-model="vm.sensor.nome"
-                    required ng-minlength="3" ng-maxlength="30"/>
-            <div ng-show="editForm.nome.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.nome.$error.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.nome.$error.minlength" translate-value-min="3">
-                    This field is required to be at least 3 characters.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.nome.$error.maxlength">
-                    This field cannot be longer than 30 characters.
-                </p>
-            </div>
-        </div>
 
         <div class="form-group">
             <label data-translate="enviromentBoxApp.sensor.id_device" for="field_id_device">Id Device</label>
@@ -42,6 +22,17 @@
         <div ng-show="editForm.id_device.$invalid">
             <p class="help-block"
                 ng-show="editForm.id_device.$error.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label for="field_tipoSensor">Tipo Sensor</label>
+            <select class="form-control" id="field_tipoSensor" name="tipoSensor" ng-model="vm.sensor.tipoSensor" ng-options="tipoSensor as tipoSensor.id for tipoSensor in vm.tiposensors track by tipoSensor.id" required>
+            </select>
+        </div>
+        <div ng-show="editForm.tipoSensor.$invalid">
+            <p class="help-block"
+                ng-show="editForm.tipoSensor.$error.required">
                 This field is required.
             </p>
         </div>

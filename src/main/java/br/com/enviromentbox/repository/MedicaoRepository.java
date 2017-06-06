@@ -1,14 +1,13 @@
 package br.com.enviromentbox.repository;
 
 import br.com.enviromentbox.domain.Medicao;
-import org.json.JSONObject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.repository.query.Param;
 
 import javax.persistence.TemporalType;
-import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,4 +38,7 @@ public interface MedicaoRepository extends JpaRepository<Medicao, Long> {
 
     @Query(value = "select variance(m.valor) as variancia from medicao m where m.device_id = :device_id and m.data_hora_medicao >= :dataInicial and m.data_hora_medicao <= :dataFinal and m.sensor_id = :id_sensor", nativeQuery = true)
     String consultarVarianceMedicaoDeviceFiltrado(@Param("device_id") Long device_id, @Param("id_sensor") Long idSensor, @Param("dataInicial") @Temporal(TemporalType.TIMESTAMP) Date dataInicial, @Param("dataFinal") @Temporal(TemporalType.TIMESTAMP) Date dataFinal);
+
+    @Query(value = "SELECT avg(m.valor) as media FROM medicao m JOIN sensor s ON s.id = m.sensor_id JOIN tipo_sensor ts ON ts.id = s.id_tipo_sensor WHERE m.device_id = :device_id AND ts.id= :id_tipo_sensor AND m.data_hora_medicao >= :data_hora_medicao", nativeQuery = true)
+    BigDecimal consultaMediaAlerta(@Param("device_id") Long device_id, @Param("id_tipo_sensor") Long id_tipo_sensor, @Param("data_hora_medicao") @Temporal(TemporalType.TIMESTAMP) Date data_hora_medicao);
 }
