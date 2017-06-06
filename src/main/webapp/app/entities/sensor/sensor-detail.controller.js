@@ -5,9 +5,9 @@
         .module('enviromentBoxApp')
         .controller('SensorDetailController', SensorDetailController);
 
-    SensorDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Sensor', 'Device'];
+    SensorDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Sensor', 'Device', 'TipoSensor'];
 
-    function SensorDetailController($scope, $rootScope, $stateParams, previousState, entity, Sensor, Device) {
+    function SensorDetailController($scope, $rootScope, $stateParams, previousState, entity, Sensor, Device, TipoSensor) {
         var vm = this;
 
         vm.sensor = entity;

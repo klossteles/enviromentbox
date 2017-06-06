@@ -9,44 +9,44 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('sensor', {
+        .state('tipo-sensor', {
             parent: 'entity',
-            url: '/sensor',
+            url: '/tipo-sensor',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Sensors'
+                pageTitle: 'TipoSensors'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/sensor/sensors.html',
-                    controller: 'SensorController',
+                    templateUrl: 'app/entities/tipo-sensor/tipo-sensors.html',
+                    controller: 'TipoSensorController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
             }
         })
-        .state('sensor-detail', {
-            parent: 'sensor',
-            url: '/sensor/{id}',
+        .state('tipo-sensor-detail', {
+            parent: 'tipo-sensor',
+            url: '/tipo-sensor/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'Sensor'
+                pageTitle: 'TipoSensor'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/sensor/sensor-detail.html',
-                    controller: 'SensorDetailController',
+                    templateUrl: 'app/entities/tipo-sensor/tipo-sensor-detail.html',
+                    controller: 'TipoSensorDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
-                entity: ['$stateParams', 'Sensor', function($stateParams, Sensor) {
-                    return Sensor.get({id : $stateParams.id}).$promise;
+                entity: ['$stateParams', 'TipoSensor', function($stateParams, TipoSensor) {
+                    return TipoSensor.get({id : $stateParams.id}).$promise;
                 }],
                 previousState: ["$state", function ($state) {
                     var currentStateData = {
-                        name: $state.current.name || 'sensor',
+                        name: $state.current.name || 'tipo-sensor',
                         params: $state.params,
                         url: $state.href($state.current.name, $state.params)
                     };
@@ -54,22 +54,22 @@
                 }]
             }
         })
-        .state('sensor-detail.edit', {
-            parent: 'sensor-detail',
+        .state('tipo-sensor-detail.edit', {
+            parent: 'tipo-sensor-detail',
             url: '/detail/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/sensor/sensor-dialog.html',
-                    controller: 'SensorDialogController',
+                    templateUrl: 'app/entities/tipo-sensor/tipo-sensor-dialog.html',
+                    controller: 'TipoSensorDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Sensor', function(Sensor) {
-                            return Sensor.get({id : $stateParams.id}).$promise;
+                        entity: ['TipoSensor', function(TipoSensor) {
+                            return TipoSensor.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
@@ -79,77 +79,78 @@
                 });
             }]
         })
-        .state('sensor.new', {
-            parent: 'sensor',
+        .state('tipo-sensor.new', {
+            parent: 'tipo-sensor',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/sensor/sensor-dialog.html',
-                    controller: 'SensorDialogController',
+                    templateUrl: 'app/entities/tipo-sensor/tipo-sensor-dialog.html',
+                    controller: 'TipoSensorDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
                         entity: function () {
                             return {
+                                nome: null,
                                 id: null
                             };
                         }
                     }
                 }).result.then(function() {
-                    $state.go('sensor', null, { reload: 'sensor' });
+                    $state.go('tipo-sensor', null, { reload: 'tipo-sensor' });
                 }, function() {
-                    $state.go('sensor');
+                    $state.go('tipo-sensor');
                 });
             }]
         })
-        .state('sensor.edit', {
-            parent: 'sensor',
+        .state('tipo-sensor.edit', {
+            parent: 'tipo-sensor',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/sensor/sensor-dialog.html',
-                    controller: 'SensorDialogController',
+                    templateUrl: 'app/entities/tipo-sensor/tipo-sensor-dialog.html',
+                    controller: 'TipoSensorDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Sensor', function(Sensor) {
-                            return Sensor.get({id : $stateParams.id}).$promise;
+                        entity: ['TipoSensor', function(TipoSensor) {
+                            return TipoSensor.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('sensor', null, { reload: 'sensor' });
+                    $state.go('tipo-sensor', null, { reload: 'tipo-sensor' });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('sensor.delete', {
-            parent: 'sensor',
+        .state('tipo-sensor.delete', {
+            parent: 'tipo-sensor',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/sensor/sensor-delete-dialog.html',
-                    controller: 'SensorDeleteController',
+                    templateUrl: 'app/entities/tipo-sensor/tipo-sensor-delete-dialog.html',
+                    controller: 'TipoSensorDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Sensor', function(Sensor) {
-                            return Sensor.get({id : $stateParams.id}).$promise;
+                        entity: ['TipoSensor', function(TipoSensor) {
+                            return TipoSensor.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('sensor', null, { reload: 'sensor' });
+                    $state.go('tipo-sensor', null, { reload: 'tipo-sensor' });
                 }, function() {
                     $state.go('^');
                 });

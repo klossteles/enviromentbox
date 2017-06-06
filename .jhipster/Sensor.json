@@ -9,21 +9,18 @@
                 "required"
             ],
             "otherEntityField": "id"
-        }
-    ],
-    "fields": [
+        },
         {
-            "fieldName": "nome",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "minlength",
-                "maxlength"
+            "relationshipName": "tipoSensor",
+            "otherEntityName": "tipoSensor",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
             ],
-            "fieldValidateRulesMinlength": "3",
-            "fieldValidateRulesMaxlength": "30"
+            "otherEntityField": "id"
         }
     ],
+    "fields": [],
     "changelogDate": "20170501174544",
     "dto": "no",
     "service": "no",
