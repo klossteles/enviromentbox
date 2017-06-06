@@ -4,6 +4,7 @@ import br.com.enviromentbox.EnviromentBoxApp;
 
 import br.com.enviromentbox.domain.Sensor;
 import br.com.enviromentbox.domain.Device;
+import br.com.enviromentbox.domain.TipoSensor;
 import br.com.enviromentbox.repository.SensorRepository;
 import br.com.enviromentbox.web.rest.errors.ExceptionTranslator;
 
@@ -37,9 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = EnviromentBoxApp.class)
 public class SensorResourceIntTest {
-
-    private static final String DEFAULT_NOME = "AAAAAAAAAA";
-    private static final String UPDATED_NOME = "BBBBBBBBBB";
 
     @Autowired
     private SensorRepository sensorRepository;
@@ -77,13 +75,17 @@ public class SensorResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Sensor createEntity(EntityManager em) {
-        Sensor sensor = new Sensor()
-            .nome(DEFAULT_NOME);
+        Sensor sensor = new Sensor();
         // Add required entity
         Device id_device = DeviceResourceIntTest.createEntity(em);
         em.persist(id_device);
         em.flush();
         sensor.setId_device(id_device);
+        // Add required entity
+        TipoSensor tipoSensor = TipoSensorResourceIntTest.createEntity(em);
+        em.persist(tipoSensor);
+        em.flush();
+        sensor.setTipoSensor(tipoSensor);
         return sensor;
     }
 
@@ -107,7 +109,6 @@ public class SensorResourceIntTest {
         List<Sensor> sensorList = sensorRepository.findAll();
         assertThat(sensorList).hasSize(databaseSizeBeforeCreate + 1);
         Sensor testSensor = sensorList.get(sensorList.size() - 1);
-        assertThat(testSensor.getNome()).isEqualTo(DEFAULT_NOME);
     }
 
     @Test
@@ -131,24 +132,6 @@ public class SensorResourceIntTest {
 
     @Test
     @Transactional
-    public void checkNomeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = sensorRepository.findAll().size();
-        // set the field null
-        sensor.setNome(null);
-
-        // Create the Sensor, which fails.
-
-        restSensorMockMvc.perform(post("/api/sensors")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(sensor)))
-            .andExpect(status().isBadRequest());
-
-        List<Sensor> sensorList = sensorRepository.findAll();
-        assertThat(sensorList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllSensors() throws Exception {
         // Initialize the database
         sensorRepository.saveAndFlush(sensor);
@@ -157,8 +140,7 @@ public class SensorResourceIntTest {
         restSensorMockMvc.perform(get("/api/sensors?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(sensor.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME.toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(sensor.getId().intValue())));
     }
 
     @Test
@@ -171,8 +153,7 @@ public class SensorResourceIntTest {
         restSensorMockMvc.perform(get("/api/sensors/{id}", sensor.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(sensor.getId().intValue()))
-            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME.toString()));
+            .andExpect(jsonPath("$.id").value(sensor.getId().intValue()));
     }
 
     @Test
@@ -192,8 +173,6 @@ public class SensorResourceIntTest {
 
         // Update the sensor
         Sensor updatedSensor = sensorRepository.findOne(sensor.getId());
-        updatedSensor
-            .nome(UPDATED_NOME);
 
         restSensorMockMvc.perform(put("/api/sensors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -204,7 +183,6 @@ public class SensorResourceIntTest {
         List<Sensor> sensorList = sensorRepository.findAll();
         assertThat(sensorList).hasSize(databaseSizeBeforeUpdate);
         Sensor testSensor = sensorList.get(sensorList.size() - 1);
-        assertThat(testSensor.getNome()).isEqualTo(UPDATED_NOME);
     }
 
     @Test

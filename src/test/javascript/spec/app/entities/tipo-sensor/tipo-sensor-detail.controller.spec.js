@@ -2,9 +2,9 @@
 
 describe('Controller Tests', function() {
 
-    describe('Sensor Management Detail Controller', function() {
+    describe('TipoSensor Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockSensor, MockDevice, MockTipoSensor;
+        var MockEntity, MockPreviousState, MockTipoSensor;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -12,8 +12,6 @@ describe('Controller Tests', function() {
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
             MockPreviousState = jasmine.createSpy('MockPreviousState');
-            MockSensor = jasmine.createSpy('MockSensor');
-            MockDevice = jasmine.createSpy('MockDevice');
             MockTipoSensor = jasmine.createSpy('MockTipoSensor');
             
 
@@ -22,19 +20,17 @@ describe('Controller Tests', function() {
                 '$rootScope': $rootScope,
                 'entity': MockEntity,
                 'previousState': MockPreviousState,
-                'Sensor': MockSensor,
-                'Device': MockDevice,
                 'TipoSensor': MockTipoSensor
             };
             createController = function() {
-                $injector.get('$controller')("SensorDetailController", locals);
+                $injector.get('$controller')("TipoSensorDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'enviromentBoxApp:sensorUpdate';
+                var eventType = 'enviromentBoxApp:tipoSensorUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);

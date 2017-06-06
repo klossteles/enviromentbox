@@ -14,18 +14,14 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Sensor.
+        Added the entity TipoSensor.
     -->
-    <changeSet id="20170501174544-1" author="jhipster">
-        <createTable tableName="sensor">
+    <changeSet id="20170606193534-1" author="jhipster">
+        <createTable tableName="tipo_sensor">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="id_device_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="tipo_sensor_id" type="bigint">
+            <column name="nome" type="varchar(30)">
                 <constraints nullable="false" />
             </column>
 

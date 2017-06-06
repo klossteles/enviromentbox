@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="device"/>
 
+        <addForeignKeyConstraint baseColumnNames="tipo_sensor_id"
+                                 baseTableName="sensor"
+                                 constraintName="fk_sensor_tipo_sensor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tipo_sensor"/>
+
     </changeSet>
 </databaseChangeLog>
