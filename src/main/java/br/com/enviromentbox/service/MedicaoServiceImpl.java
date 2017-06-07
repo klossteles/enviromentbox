@@ -3,6 +3,7 @@ package br.com.enviromentbox.service;
 import br.com.enviromentbox.domain.Device;
 import br.com.enviromentbox.domain.Medicao;
 import br.com.enviromentbox.domain.Sensor;
+import br.com.enviromentbox.domain.TipoSensor;
 import br.com.enviromentbox.repository.MedicaoRepository;
 import br.com.enviromentbox.repository.SensorRepository;
 import org.json.JSONArray;
@@ -17,7 +18,10 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Kloss Teles on 16/05/2017.
@@ -29,11 +33,6 @@ public class MedicaoServiceImpl implements MedicaoService {
 
     @Autowired
     private  SensorRepository sensorRepository;
-
-    private static final BigInteger RUIDO = BigInteger.valueOf(1);
-    private static final BigInteger TEMPERATURA = BigInteger.valueOf(2);
-    private static final BigInteger UMIDADE = BigInteger.valueOf(3);
-    private static final BigInteger MONOXIDO = BigInteger.valueOf(4);
 
     @Override
     @Transactional
@@ -81,7 +80,7 @@ public class MedicaoServiceImpl implements MedicaoService {
             BigInteger device_id = (BigInteger) obj[2];
             String nome_device = (String) obj[3];
             BigInteger id_tipo_sensor = (BigInteger) obj[4];
-            if(id_tipo_sensor.compareTo(RUIDO) == 0){
+            if(id_tipo_sensor.compareTo(TipoSensor.RUIDO) == 0){
                 verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 8, 0, 85);
                 verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 7,0, 86);
                 verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 6,0, 87);
@@ -105,11 +104,11 @@ public class MedicaoServiceImpl implements MedicaoService {
                 verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,8, 114);
                 verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,7, 115);
 
-            }else if(id_tipo_sensor.compareTo(TEMPERATURA) == 0){
+            }else if(id_tipo_sensor.compareTo(TipoSensor.TEMPERATURA) == 0){
 //                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
-            }else if(id_tipo_sensor.compareTo(UMIDADE) == 0){
+            }else if(id_tipo_sensor.compareTo(TipoSensor.UMIDADE) == 0){
 //                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
-            }else if(id_tipo_sensor.compareTo(MONOXIDO) == 0){
+            }else if(id_tipo_sensor.compareTo(TipoSensor.MONOXIDO) == 0){
 //                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
             }
         }
@@ -151,7 +150,10 @@ public class MedicaoServiceImpl implements MedicaoService {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("MEDICOES", medicaoRepository.consultarMedicoesFiltradas(device_id, sensor_id,dataHoraInicial, dataHoraFinal));
+            ArrayList<Object[]> medicoes = medicaoRepository.consultarMedicoesFiltradas(device_id,  dataHoraInicial, dataHoraFinal, sensor_id.longValue());
+            JSONArray jsArray = new JSONArray();
+            formataMedicoes(medicoes, jsArray);
+            jsonObject.put("MEDICOES", jsArray.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,7 +165,6 @@ public class MedicaoServiceImpl implements MedicaoService {
 
     @Override
     public String consultaDadosMedicoesDevice(Long device_id, String data_inicial, String data_final) {
-        StringBuilder strBldr = new StringBuilder();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         Timestamp dataHoraInicial = null;
         Timestamp dataHoraFinal = null;
@@ -180,19 +181,22 @@ public class MedicaoServiceImpl implements MedicaoService {
             e.printStackTrace();
         }
 
-        ArrayList<Sensor> sensores = sensorRepository.consultarSensoresByDeviceId(device_id);
+        ArrayList<Object[]> sensores = sensorRepository.consultarSensoresByDeviceId(device_id);
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject= new JSONObject();
-        for(Sensor sensor : sensores){
-            Long idSensor = sensor.getId();
+        for(Object[] sensor : sensores){
+            BigInteger idSensor = (BigInteger) sensor[0];
             try {
                 jsonObject.put("ID_SENSOR", idSensor);
-                jsonObject.put("MEDIA", medicaoRepository.consultarMediaMedicaoDeviceFiltrado(device_id, idSensor, dataHoraInicial, dataHoraFinal));
-                jsonObject.put("MIN",medicaoRepository.consultarMinMedicaoDeviceFiltrado(device_id, idSensor, dataHoraInicial, dataHoraFinal));
-                jsonObject.put("MAX", medicaoRepository.consultarMaxMedicaoDeviceFiltrado(device_id, idSensor, dataHoraInicial, dataHoraFinal));
-                jsonObject.put("DESVIO_PADRAO", medicaoRepository.consultarStddevMedicaoDeviceFiltrado(device_id, idSensor, dataHoraInicial, dataHoraFinal));
-                jsonObject.put("VARIANCE", medicaoRepository.consultarVarianceMedicaoDeviceFiltrado(device_id, idSensor, dataHoraInicial, dataHoraFinal));
-                jsonObject.put("MEDICOES", medicaoRepository.consultarMedicoesFiltradas(device_id, idSensor, dataHoraInicial, dataHoraFinal));
+                jsonObject.put("MEDIA", medicaoRepository.consultarMediaMedicaoDeviceFiltrado(device_id, idSensor.longValue(), dataHoraInicial, dataHoraFinal));
+                jsonObject.put("MIN",medicaoRepository.consultarMinMedicaoDeviceFiltrado(device_id, idSensor.longValue(), dataHoraInicial, dataHoraFinal));
+                jsonObject.put("MAX", medicaoRepository.consultarMaxMedicaoDeviceFiltrado(device_id, idSensor.longValue(), dataHoraInicial, dataHoraFinal));
+                jsonObject.put("DESVIO_PADRAO", medicaoRepository.consultarStddevMedicaoDeviceFiltrado(device_id, idSensor.longValue(), dataHoraInicial, dataHoraFinal));
+                jsonObject.put("VARIANCE", medicaoRepository.consultarVarianceMedicaoDeviceFiltrado(device_id, idSensor.longValue(), dataHoraInicial, dataHoraFinal));
+                ArrayList<Object[]> medicoes = medicaoRepository.consultarMedicoesFiltradas(device_id,  dataHoraInicial, dataHoraFinal, idSensor.longValue());
+                JSONArray jsArray = new JSONArray();
+                formataMedicoes(medicoes, jsArray);
+                jsonObject.put("MEDICOES", jsArray.toString());
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -201,6 +205,18 @@ public class MedicaoServiceImpl implements MedicaoService {
 
         String str = jsonArray.toString();
         return str;
+    }
+
+    private void formataMedicoes(ArrayList<Object[]> medicoes, JSONArray jsArray) throws JSONException {
+        for(Object[] objects : medicoes){
+            JSONObject medicao = new JSONObject();
+            medicao.put("ID_MEDICAO",objects[0]);
+            medicao.put("VALOR",objects[1]);
+            medicao.put("DATA_HORA_MEDICAO",objects[2]);
+            medicao.put("DEVICE_ID",objects[3]);
+            medicao.put("SENSOR_ID",objects[4]);
+            jsArray.put(medicao);
+        }
     }
 
     @Override
@@ -220,7 +236,10 @@ public class MedicaoServiceImpl implements MedicaoService {
             jsonObject.put("MAX", medicaoRepository.consultarMaxMedicaoDeviceFiltrado(device_id, sensor_id, dataHoraInicial, dataHoraFinal));
             jsonObject.put("DESVIO_PADRAO", medicaoRepository.consultarStddevMedicaoDeviceFiltrado(device_id, sensor_id, dataHoraInicial, dataHoraFinal));
             jsonObject.put("VARIANCE", medicaoRepository.consultarVarianceMedicaoDeviceFiltrado(device_id, sensor_id, dataHoraInicial, dataHoraFinal));
-            jsonObject.put("MEDICOES", medicaoRepository.consultarMedicoesFiltradas(device_id, sensor_id, dataHoraInicial, dataHoraFinal));
+            ArrayList<Object[]> medicoes = medicaoRepository.consultarMedicoesFiltradas(device_id,  dataHoraInicial, dataHoraFinal, sensor_id);
+            JSONArray jsonArray = new JSONArray();
+            formataMedicoes(medicoes, jsonArray);
+            jsonObject.put("MEDICOES", jsonArray.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
