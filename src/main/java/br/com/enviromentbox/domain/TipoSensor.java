@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Objects;
 
 /**
@@ -15,6 +16,11 @@ import java.util.Objects;
 @Table(name = "tipo_sensor")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class TipoSensor implements Serializable {
+
+    public static final BigInteger RUIDO = BigInteger.valueOf(1);
+    public static final BigInteger TEMPERATURA = BigInteger.valueOf(2);
+    public static final BigInteger UMIDADE = BigInteger.valueOf(3);
+    public static final BigInteger MONOXIDO = BigInteger.valueOf(4);
 
     private static final long serialVersionUID = 1L;
 

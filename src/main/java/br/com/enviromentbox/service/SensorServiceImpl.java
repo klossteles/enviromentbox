@@ -2,6 +2,7 @@ package br.com.enviromentbox.service;
 
 import br.com.enviromentbox.domain.Sensor;
 import br.com.enviromentbox.repository.SensorRepository;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,9 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public String consultarSensoresByDeviceId(Long device_id) {
-        ArrayList<Sensor> sensores = sensorRepository.consultarSensoresByDeviceId(device_id);
-        String str = sensores.toString();
+        ArrayList<Object[]> sensores = sensorRepository.consultarSensoresByDeviceId(device_id);
+        JSONArray jsonArray = new JSONArray(sensores);
+        String str = jsonArray.toString();
         return str;
     }
 }
