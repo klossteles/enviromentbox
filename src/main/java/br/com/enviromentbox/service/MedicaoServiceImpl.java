@@ -105,11 +105,11 @@ public class MedicaoServiceImpl implements MedicaoService {
                 verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,7, 115);
 
             }else if(id_tipo_sensor.compareTo(TipoSensor.TEMPERATURA) == 0){
-//                verificarAlertasTemperatura(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
+//                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
             }else if(id_tipo_sensor.compareTo(TipoSensor.UMIDADE) == 0){
-//                verificarAlertasUmidade(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
+//                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
             }else if(id_tipo_sensor.compareTo(TipoSensor.MONOXIDO) == 0){
-//                verificarAlertasMonoxido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
+//                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
             }
         }
 
