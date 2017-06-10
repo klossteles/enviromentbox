@@ -5,15 +5,16 @@
         .module('enviromentBoxApp')
         .controller('SensorDialogController', SensorDialogController);
 
-    SensorDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Sensor', 'Device'];
+    SensorDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Sensor', 'Device', 'TipoSensor'];
 
-    function SensorDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Sensor, Device) {
+    function SensorDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Sensor, Device, TipoSensor) {
         var vm = this;
 
         vm.sensor = entity;
         vm.clear = clear;
         vm.save = save;
         vm.devices = Device.query();
+        vm.tiposensors = TipoSensor.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

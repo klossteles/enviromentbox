@@ -6,15 +6,21 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Objects;
 
 /**
- * A Sensor.
+ * A TipoSensor.
  */
 @Entity
-@Table(name = "sensor")
+@Table(name = "tipo_sensor")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Sensor implements Serializable {
+public class TipoSensor implements Serializable {
+
+    public static final BigInteger RUIDO = BigInteger.valueOf(1);
+    public static final BigInteger TEMPERATURA = BigInteger.valueOf(2);
+    public static final BigInteger UMIDADE = BigInteger.valueOf(3);
+    public static final BigInteger MONOXIDO = BigInteger.valueOf(4);
 
     private static final long serialVersionUID = 1L;
 
@@ -23,13 +29,10 @@ public class Sensor implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @ManyToOne(optional = false)
     @NotNull
-    private Device id_device;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    private TipoSensor tipoSensor;
+    @Size(min = 3, max = 30)
+    @Column(name = "nome", length = 30, nullable = false)
+    private String nome;
 
     public Long getId() {
         return id;
@@ -39,30 +42,17 @@ public class Sensor implements Serializable {
         this.id = id;
     }
 
-    public Device getId_device() {
-        return id_device;
+    public String getNome() {
+        return nome;
     }
 
-    public Sensor id_device(Device device) {
-        this.id_device = device;
+    public TipoSensor nome(String nome) {
+        this.nome = nome;
         return this;
     }
 
-    public void setId_device(Device device) {
-        this.id_device = device;
-    }
-
-    public TipoSensor getTipoSensor() {
-        return tipoSensor;
-    }
-
-    public Sensor tipoSensor(TipoSensor tipoSensor) {
-        this.tipoSensor = tipoSensor;
-        return this;
-    }
-
-    public void setTipoSensor(TipoSensor tipoSensor) {
-        this.tipoSensor = tipoSensor;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     @Override
@@ -73,11 +63,11 @@ public class Sensor implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Sensor sensor = (Sensor) o;
-        if (sensor.id == null || id == null) {
+        TipoSensor tipoSensor = (TipoSensor) o;
+        if (tipoSensor.id == null || id == null) {
             return false;
         }
-        return Objects.equals(id, sensor.id);
+        return Objects.equals(id, tipoSensor.id);
     }
 
     @Override
@@ -87,8 +77,9 @@ public class Sensor implements Serializable {
 
     @Override
     public String toString() {
-        return "Sensor{" +
+        return "TipoSensor{" +
             "id=" + id +
+            ", nome='" + nome + "'" +
             '}';
     }
 }

@@ -18,7 +18,7 @@ public class MedicaoController {
     MedicaoService medicaoService;
 
     @RequestMapping(value = "/consultaMedicoesByDeviceId/{device_id}", method = RequestMethod.GET)
-    public List<Medicao> consultaMedicoesByDeviceId(@PathVariable("device_id") Long device_id) {
+    public String consultaMedicoesByDeviceId(@PathVariable("device_id") Long device_id) {
         return medicaoService.consultaMedicoesByDeviceId(device_id.longValue());
     }
 
