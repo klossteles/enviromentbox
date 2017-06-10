@@ -22,9 +22,9 @@ public class PushyAPI {
     public static ObjectMapper mapper = new ObjectMapper();
 
     // Insert your Secret API Key here
-    public static final String SECRET_API_KEY = "SECRET_API_KEY";
+    public static final String SECRET_API_KEY = "2b34efd5e4bf9c60f6c04f9bf159eef0f42754d006589cb815c13e2c38235f0d";
 
-    public static void sendPush(PushyPushRequest req) throws Exception {
+    public void sendPush(PushyPushRequest req) throws Exception {
         // Get custom HTTP client
         DefaultHttpClient client = new DefaultHttpClient();
 
@@ -56,25 +56,25 @@ public class PushyAPI {
         }
     }
 
-    public void sendSamplePush() {
+    public void sendAlertaPush(String message, String deviceToken) {
         // Prepare list of target device tokens
         List<String> deviceTokens = new ArrayList<>();
 
         // Add your device tokens here
-        deviceTokens.add("cdd92f4ce847efa5c7f");
+        deviceTokens.add(deviceToken);
 
         // Set payload (any object, it will be serialized to JSON)
         Map<String, String> payload = new HashMap<>();
 
         // Add "message" parameter to payload
-        payload.put("message", "Hello World!");
+        payload.put("message", message);
 
         // iOS notification fields
         Map<String, Object> notification = new HashMap<>();
 
         notification.put("badge", 1);
         notification.put("sound", "ping.aiff");
-        notification.put("body", "Hello World \u270c");
+        notification.put("body", message);
 
         // Prepare the push request
         PushyPushRequest push = new PushyPushRequest(payload, deviceTokens.toArray(new String[deviceTokens.size()]), notification);
