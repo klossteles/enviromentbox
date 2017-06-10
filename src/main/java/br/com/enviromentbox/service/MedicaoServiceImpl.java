@@ -132,7 +132,8 @@ public class MedicaoServiceImpl implements MedicaoService {
     public String consultaMedicoesByDeviceId(Long device_id) {
         List<Object[]> medicoes = medicaoRepository.consultaMedicoesByDeviceId(device_id);
         JSONArray jsonArray = new JSONArray(medicoes);
-        return jsonArray.toString();
+        String str = jsonArray.toString();
+        return str;
     }
 
     @Override
