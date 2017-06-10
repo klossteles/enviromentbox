@@ -68,8 +68,11 @@ public class MedicaoServiceImpl implements MedicaoService {
     }
 
     @Override
-    public List<Medicao> consultaMedicoesByDeviceId(Long device_id) {
-        return medicaoRepository.consultaMedicoesByDeviceId(device_id);
+    public String consultaMedicoesByDeviceId(Long device_id) {
+        List<Object[]> medicoes = medicaoRepository.consultaMedicoesByDeviceId(device_id);
+        JSONArray jsonArray = new JSONArray(medicoes);
+        String str = jsonArray.toString();
+        return str;
     }
 
     @Override
