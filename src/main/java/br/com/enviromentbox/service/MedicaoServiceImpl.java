@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,20 +41,23 @@ public class MedicaoServiceImpl implements MedicaoService {
         Integer idDevice = new Integer(0);
         Integer idSensor = new Integer(0);
         BigDecimal valor = new BigDecimal(0);
-        String[] strArr = str.split(";");
-        int index;
-        if (strArr[0].contains("id_device")) {
-            index = strArr[0].indexOf(":");
-            idDevice = new Integer(strArr[0].substring(index + 1, strArr[0].length()));
-        }
-        if (strArr[1].contains("id_sensor")) {
-            index = strArr[1].indexOf(":");
-            idSensor = new Integer(strArr[1].substring(index + 1, strArr[1].length()));
-        }
-        if (strArr[2].contains("valor_medicao")) {
-            index = strArr[2].indexOf(":");
-            valor = new BigDecimal(strArr[2].substring(index + 1, strArr[2].length()).toString());
-        }
+        String[] strArr = str.split(":");
+//        int index;
+        idDevice = new Integer(strArr[0]);
+        idSensor = new Integer(strArr[1]);
+        valor = new BigDecimal(strArr[2]);
+//        if (strArr[0].contains("id_device")) {
+//            index = strArr[0].indexOf(":");
+//            idDevice = new Integer(strArr[0].substring(index + 1, strArr[0].length()));
+//        }
+//        if (strArr[1].contains("id_sensor")) {
+//            index = strArr[1].indexOf(":");
+//            idSensor = new Integer(strArr[1].substring(index + 1, strArr[1].length()));
+//        }
+//        if (strArr[2].contains("valor_medicao")) {
+//            index = strArr[2].indexOf(":");
+//            valor = new BigDecimal(strArr[2].substring(index + 1, strArr[2].length()).toString());
+//        }
 
         Device device = new Device();
         device.setId(idDevice.longValue());
@@ -81,50 +85,127 @@ public class MedicaoServiceImpl implements MedicaoService {
             String nome_device = (String) obj[3];
             BigInteger id_tipo_sensor = (BigInteger) obj[4];
             if(id_tipo_sensor.compareTo(TipoSensor.RUIDO) == 0){
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 8, 0, 85);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 7,0, 86);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 6,0, 87);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 5,0, 88);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 4,30, 89);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 4,0, 91);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 3,30, 92);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 3,0, 93);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 2,30, 94);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 2,0, 95);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 1,45, 96);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 1,15, 98);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 1,0, 100);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,45, 102);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,35, 104);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,30, 105);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,25, 106);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,20, 108);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,15, 110);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,10, 112);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,8, 114);
-                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor, 0,7, 115);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 8, 0, 85);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 7,0, 86);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 6,0, 87);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 5,0, 88);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 4,30, 89);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 4,0, 91);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 3,30, 92);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 3,0, 93);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 2,30, 94);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 2,0, 95);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 1,45, 96);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 1,15, 98);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 1,0, 100);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,45, 102);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,35, 104);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,30, 105);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,25, 106);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,20, 108);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,15, 110);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,10, 112);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,8, 114);
+                verificarAlertasRuido(cal, nome_sensor, device_id, sensor_id, nome_device, id_tipo_sensor, 0,7, 115);
 
             }else if(id_tipo_sensor.compareTo(TipoSensor.TEMPERATURA) == 0){
-//                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
+                verificarAlertasTempertatura(cal, nome_sensor, sensor_id, device_id, nome_device, id_tipo_sensor,1,0,20,23);
             }else if(id_tipo_sensor.compareTo(TipoSensor.UMIDADE) == 0){
-//                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
+                verificarAlertasUmidade(cal, nome_sensor, sensor_id, device_id, nome_device, id_tipo_sensor,1,0,40);
             }else if(id_tipo_sensor.compareTo(TipoSensor.MONOXIDO) == 0){
-//                verificarAlertasRuido(cal, nome_sensor, device_id, nome_device, id_tipo_sensor);
+                verificarAlertasMonoxido(cal, nome_sensor, sensor_id, device_id, nome_device, id_tipo_sensor,1,0,20);
             }
         }
 
     }
 
-    private void verificarAlertasRuido(Calendar cal, String nome_sensor, BigInteger device_id, String nome_device, BigInteger id_tipo_sensor, int numHoras, int numMinutos, int numDB) {
-        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR)-numHoras);
-        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE)-numMinutos);
+    private void verificarAlertasMonoxido(Calendar cal, String nome_sensor, BigInteger idSensor ,BigInteger device_id, String nome_device, BigInteger id_tipo_sensor, int numHoras, int numMinutos, int numPart) {
+        cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) - numHoras);
+        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) - numMinutos);
         BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
+        if(mediaAlerta != null && mediaAlerta.compareTo(BigDecimal.valueOf(numPart)) > 0){
+            StringBuilder strBuilder = new StringBuilder();
+            String deviceToken = "bd72255ab5f15f7e2cc9e4";
+            System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
+            strBuilder.append("O device " + nome_device + " gerou um alerta!\n");
+            System.out.println("Número de partículas acima de " + numPart);
+            strBuilder.append("Número de partículas acima de " + numPart + "\n");
+            System.out.println("Valor medido: " + mediaAlerta.setScale(4, RoundingMode.HALF_UP));
+            strBuilder.append("Valor medido: " + mediaAlerta + "\n");
+
+            PushyAPI pushyAPI = new PushyAPI();
+            pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
+        }
+    }
+
+    private void verificarAlertasUmidade(Calendar cal, String nome_sensor, BigInteger idSensor, BigInteger device_id, String nome_device, BigInteger id_tipo_sensor, int numHoras, int numMinutos, int umidadeMin) {
+        cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) - numHoras);
+        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) - numMinutos);
+        BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
+        if(mediaAlerta != null && mediaAlerta.compareTo(BigDecimal.valueOf(umidadeMin)) < 0){
+            StringBuilder strBuilder = new StringBuilder();
+            String deviceToken = "bd72255ab5f15f7e2cc9e4";
+            System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
+            strBuilder.append("Atenção");
+            strBuilder.append("O device " + nome_device + " gerou um alerta!");
+            System.out.println("Umidade abaixo de " + umidadeMin);
+            strBuilder.append("Umidade abaixo de " + umidadeMin);
+            System.out.println("Valor encontrado: " + mediaAlerta);
+            strBuilder.append("Valor medido: " + mediaAlerta);
+
+            PushyAPI pushyAPI = new PushyAPI();
+            pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
+        }
+    }
+
+    private void verificarAlertasTempertatura(Calendar cal, String nome_sensor, BigInteger idSensor, BigInteger device_id, String nome_device, BigInteger id_tipo_sensor, int numHoras, int numMinutos, int temperaturaMin , int temperaturaMax) {
+        cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) - numHoras);
+        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) - numMinutos);
+        BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
+        if(mediaAlerta != null && (mediaAlerta.compareTo(BigDecimal.valueOf(temperaturaMin)) < 0 || mediaAlerta.compareTo(BigDecimal.valueOf(temperaturaMax)) > 0)){
+            StringBuilder strBuilder = new StringBuilder();
+            String deviceToken = "bd72255ab5f15f7e2cc9e4";
+            System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
+            strBuilder.append("Atenção");
+            strBuilder.append("O device " + nome_device + " gerou um alerta!");
+            if(mediaAlerta.compareTo(BigDecimal.valueOf(temperaturaMin)) < 0){
+                System.out.println("Temperatura abaixo: " + temperaturaMin);
+                strBuilder.append("Temperatura abaixo: " + temperaturaMin);
+            }else{
+                System.out.println("Temperatura excedida: " + temperaturaMax);
+                strBuilder.append("Temperatura excedida: " + temperaturaMin);
+            }
+            System.out.println("Valor encontrado: " + mediaAlerta);
+            strBuilder.append("Valor medido: " + mediaAlerta);
+
+            PushyAPI pushyAPI = new PushyAPI();
+            pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
+        }
+    }
+
+    private void verificarAlertasRuido(Calendar cal, String nome_sensor, BigInteger idSensor, BigInteger device_id, String nome_device, BigInteger id_tipo_sensor, int numHoras, int numMinutos, int numDB) {
+        cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) - numHoras);
+        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) - numMinutos);
+        BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
+        String deviceToken = "bd72255ab5f15f7e2cc9e4";
         if(mediaAlerta != null && mediaAlerta.compareTo(BigDecimal.valueOf(numDB)) >= 0){
             System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
             System.out.println("DB excedido: " + numDB);
             System.out.println("Tempo excedido: " + numHoras + " horas e " + numMinutos + " minutos");
             System.out.println("Valor encontrado:" + mediaAlerta);
-            System.out.println();
+            StringBuilder strBuilder = new StringBuilder();
+            strBuilder.append("Atenção");
+            strBuilder.append("O device " + nome_device + " gerou um alerta!");
+            strBuilder.append("Db excedido: " + numDB);
+            strBuilder.append("Tempo excedido: " + numHoras + " horas e " + numMinutos + " minutos");
+            strBuilder.append("Valor medido:" + mediaAlerta);
+
+            PushyAPI pushyAPI = new PushyAPI();
+            pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
         }
     }
 

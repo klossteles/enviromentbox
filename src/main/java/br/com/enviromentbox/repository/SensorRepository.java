@@ -18,4 +18,7 @@ public interface SensorRepository extends JpaRepository<Sensor,Long> {
 
     @Query(value = "SELECT s.id, ts.nome as nome_sensor, s.id_device_id, d.nome as nome_device, ts.id as id_tipo_sensor FROM sensor s JOIN device d ON d.id = s.id_device_id JOIN tipo_sensor ts ON ts.id = s.id_tipo_sensor",nativeQuery = true)
     ArrayList<Object[]> consultarSensores();
+
+    @Query(value = "select s.id_tipo_sensor, ts.nome from sensor s join tipo_sensor ts on ts.id = s.id_tipo_sensor where s.id = :idSensor", nativeQuery = true)
+    Object[] consultarTipoSensorByIdSensor(@Param("idSensor") Long idSensor);
 }
