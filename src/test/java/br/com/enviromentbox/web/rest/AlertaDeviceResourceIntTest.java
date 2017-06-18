@@ -23,8 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,8 +43,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = EnviromentBoxApp.class)
 public class AlertaDeviceResourceIntTest {
 
-    private static final LocalDate DEFAULT_DATA_HORA = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATA_HORA = LocalDate.now(ZoneId.systemDefault());
+    private static final Calendar cal = Calendar.getInstance();
+    private static final Timestamp DEFAULT_DATA_HORA = new Timestamp(cal.getTimeInMillis());
+    private static final Timestamp UPDATED_DATA_HORA = new Timestamp(cal.getTimeInMillis());
 
     private static final Integer DEFAULT_PROCESSADO = 0;
     private static final Integer UPDATED_PROCESSADO = 1;
