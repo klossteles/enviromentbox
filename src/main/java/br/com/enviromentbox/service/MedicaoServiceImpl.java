@@ -181,10 +181,11 @@ public class MedicaoServiceImpl implements MedicaoService {
                 System.out.println("Temperatura excedida: " + temperaturaMax);
                 strBuilder.append("Temperatura excedida: " + temperaturaMin);
             }
+
             System.out.println("Valor encontrado: " + mediaAlerta.setScale(2, BigDecimal.ROUND_UP));
             strBuilder.append("Valor medido: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
 
-//            Gera o alerta no ios e salva o alerta no bd
+//          Gera o alerta no ios e salva o alerta no bd
             gerarAlerta(idSensor, device_id, strBuilder, deviceToken);
         }
     }
@@ -244,6 +245,14 @@ public class MedicaoServiceImpl implements MedicaoService {
     @Override
     public String consultaMedicoesByDeviceId(Long device_id) {
         List<Object[]> medicoes = medicaoRepository.consultaMedicoesByDeviceId(device_id);
+        JSONArray jsonArray = new JSONArray(medicoes);
+        String str = jsonArray.toString();
+        return str;
+    }
+
+    @Override
+    public String consultarByDeviceId(Long device_id) {
+        List<Object[]> medicoes = medicaoRepository.consultarByDeviceId(device_id);
         JSONArray jsonArray = new JSONArray(medicoes);
         String str = jsonArray.toString();
         return str;
