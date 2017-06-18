@@ -49,6 +49,7 @@ public class CacheConfiguration {
             cm.createCache(br.com.enviromentbox.domain.Cargo.class.getName(), jcacheConfiguration);
             cm.createCache(br.com.enviromentbox.domain.Usuario.class.getName(), jcacheConfiguration);
             cm.createCache(br.com.enviromentbox.domain.TipoSensor.class.getName(), jcacheConfiguration);
+            cm.createCache(br.com.enviromentbox.domain.AlertaDevice.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

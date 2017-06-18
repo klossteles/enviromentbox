@@ -1,5 +1,6 @@
 package br.com.enviromentbox.domain;
 
+import br.com.enviromentbox.service.AlertaDeviceService;
 import br.com.enviromentbox.service.MedicaoService;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
@@ -11,10 +12,12 @@ public class ThreadSalvarMedicao extends Thread {
     private final static String QUEUE_NAME = "EnviromentBox";
     com.rabbitmq.client.Channel channel;
     MedicaoService medicaoService;
+    AlertaDeviceService alertaDeviceService;
 
-    public ThreadSalvarMedicao(Channel channel, MedicaoService medicaoService) {
+    public ThreadSalvarMedicao(Channel channel, MedicaoService medicaoService, AlertaDeviceService alertaDeviceService) {
         this.channel = channel;
         this.medicaoService = medicaoService;
+        this.alertaDeviceService = alertaDeviceService;
     }
 
     @Override

@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span>Alerta Device</span> {{vm.alertaDevice.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="enviromentBoxApp.alertaDevice.data_hora">Data Hora</span></dt>
+        <dd>
+            <span>{{vm.alertaDevice.data_hora | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Processado</span></dt>
+        <dd>
+            <span>{{vm.alertaDevice.processado}}</span>
+        </dd>
+        <dt><span>Device</span></dt>
+        <dd>
+            <a ui-sref="device-detail({id:vm.alertaDevice.device.id})">{{vm.alertaDevice.device.nome}}</a>
+        </dd>
+        <dt><span>Sensor</span></dt>
+        <dd>
+            <a ui-sref="sensor-detail({id:vm.alertaDevice.sensor.id})">{{vm.alertaDevice.sensor.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="alerta-device-detail.edit({id:vm.alertaDevice.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>
