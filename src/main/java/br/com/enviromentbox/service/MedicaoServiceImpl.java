@@ -140,8 +140,8 @@ public class MedicaoServiceImpl implements MedicaoService {
             System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
             System.out.println("Número de partículas acima de " + numPart);
             System.out.println("Valor medido: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
-            strBuilder.append("Alerta gerado pelo device " + nome_device);
-            strBuilder.append("Número de partículas acima de " + numPart);
+            strBuilder.append("Alerta gerado pelo device " + nome_device + "\n");
+            strBuilder.append("Número de partículas acima de " + numPart + "\n");
             strBuilder.append("Valor medido: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
 //            Gera o alerta no ios e salva o alerta no bd
             gerarAlerta(idSensor, device_id, strBuilder, deviceToken);
@@ -160,8 +160,8 @@ public class MedicaoServiceImpl implements MedicaoService {
             System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
             System.out.println("Umidade abaixo de " + umidadeMin);
             System.out.println("Valor encontrado: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
-            strBuilder.append("Alerta gerado pelo device " + nome_device);
-            strBuilder.append("Umidade abaixo de " + umidadeMin);
+            strBuilder.append("Alerta gerado pelo device " + nome_device + "\n");
+            strBuilder.append("Umidade abaixo de " + umidadeMin + "\n");
             strBuilder.append("Valor medido: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
 
 //            Gera o alerta no ios e salva o alerta no bd
@@ -179,17 +179,17 @@ public class MedicaoServiceImpl implements MedicaoService {
             StringBuilder strBuilder = new StringBuilder();
             String deviceToken = "bd72255ab5f15f7e2cc9e4";
             System.out.println("Gerar alerta para o sensor: " + nome_sensor + " do device: " + nome_device);
-            strBuilder.append("Alerta gerado pelo device " + nome_device);
+            strBuilder.append("Alerta gerado pelo device " + nome_device + "\n");
             if(mediaAlerta.compareTo(BigDecimal.valueOf(temperaturaMin)) < 0){
                 System.out.println("Temperatura abaixo: " + temperaturaMin);
-                strBuilder.append("Temperatura abaixo: " + temperaturaMin);
+                strBuilder.append("Temperatura abaixo: " + temperaturaMin + "\n");
             }else{
                 System.out.println("Temperatura excedida: " + temperaturaMax);
-                strBuilder.append("Temperatura excedida: " + temperaturaMin);
+                strBuilder.append("Temperatura excedida: " + temperaturaMin + "\n");
             }
 
             System.out.println("Valor encontrado: " + mediaAlerta.setScale(2, BigDecimal.ROUND_UP));
-            strBuilder.append("Valor medido: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
+            strBuilder.append("Valor medido: " + mediaAlerta.setScale(2,BigDecimal.ROUND_UP) + "\n");
 
 //          Gera o alerta no ios e salva o alerta no bd
             gerarAlerta(idSensor, device_id, strBuilder, deviceToken);
@@ -209,9 +209,9 @@ public class MedicaoServiceImpl implements MedicaoService {
             System.out.println("Tempo excedido: " + numHoras + " horas e " + numMinutos + " minutos");
             System.out.println("Valor encontrado:" + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
             StringBuilder strBuilder = new StringBuilder();
-            strBuilder.append("O device " + nome_device + " gerou um alerta!");
-            strBuilder.append("Db excedido: " + numDB);
-            strBuilder.append("Tempo excedido: " + numHoras + " horas e " + numMinutos + " minutos");
+            strBuilder.append("O device " + nome_device + " gerou um alerta!\n");
+            strBuilder.append("Db excedido: " + numDB + "\n");
+            strBuilder.append("Tempo excedido: " + numHoras + " horas e " + numMinutos + " minutos\n");
             strBuilder.append("Valor medido:" + mediaAlerta.setScale(2,BigDecimal.ROUND_UP));
 
 //            Gera o alerta no ios e salva o alerta no bd
