@@ -17,6 +17,11 @@ public class MedicaoController {
     @Autowired
     MedicaoService medicaoService;
 
+    @RequestMapping(value = "/consultarByDeviceId/{device_id}", method = RequestMethod.GET)
+    public String consultarByDeviceId(@PathVariable("device_id") Long device_id) {
+        return medicaoService.consultarByDeviceId(device_id.longValue());
+    }
+
     @RequestMapping(value = "/consultaMedicoesByDeviceId/{device_id}", method = RequestMethod.GET)
     public String consultaMedicoesByDeviceId(@PathVariable("device_id") Long device_id) {
         return medicaoService.consultaMedicoesByDeviceId(device_id.longValue());
