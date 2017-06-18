@@ -1,0 +1,48 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "device",
+            "otherEntityName": "device",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "nome"
+        },
+        {
+            "relationshipName": "sensor",
+            "otherEntityName": "sensor",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "data_hora",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "processado",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": "1"
+        }
+    ],
+    "changelogDate": "20170617183617",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "alerta_device",
+    "pagination": "no"
+}

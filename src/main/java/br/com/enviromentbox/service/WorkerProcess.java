@@ -19,6 +19,9 @@ public class WorkerProcess {
     @Autowired
     MedicaoService medicaoService;
 
+    @Autowired
+    AlertaDeviceService alertaDeviceService;
+
     @PostConstruct
     public void initIt() throws Exception {
         String uri = System.getenv("CLOUDAMQP_URL");
@@ -32,7 +35,7 @@ public class WorkerProcess {
         System.out.println("Conexão Iniciada");
         Channel channel = connection.createChannel();
 
-        ThreadSalvarMedicao teste = new ThreadSalvarMedicao(channel, medicaoService);
+        ThreadSalvarMedicao teste = new ThreadSalvarMedicao(channel, medicaoService, alertaDeviceService);
         teste.start();
     }
 }
