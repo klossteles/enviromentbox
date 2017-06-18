@@ -47,9 +47,15 @@ public class MedicaoServiceImpl implements MedicaoService {
         BigDecimal valor = new BigDecimal(0);
         String[] strArr = str.split(":");
 //        int index;
-        idDevice = new Integer(strArr[0]);
-        idSensor = new Integer(strArr[1]);
-        valor = new BigDecimal(strArr[2]);
+        try{
+            idDevice = new Integer(strArr[0]);
+            idSensor = new Integer(strArr[1]);
+            valor = new BigDecimal(strArr[2]);
+        }catch (Exception e){
+            System.out.println("Erro ao converter valores");
+            e.printStackTrace();
+        }
+
 //        if (strArr[0].contains("id_device")) {
 //            index = strArr[0].indexOf(":");
 //            idDevice = new Integer(strArr[0].substring(index + 1, strArr[0].length()));
@@ -230,14 +236,11 @@ public class MedicaoServiceImpl implements MedicaoService {
         device.setId(device_id.longValue());
         Sensor sensor = new Sensor();
         sensor.setId(idSensor.longValue());
-        Date date = new Date();
-        Instant instant = date.toInstant();
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
-        LocalDate localDate = zonedDateTime.toLocalDate();
+        Calendar cal = Calendar.getInstance();
         AlertaDevice alertaDevice = new AlertaDevice();
         alertaDevice.setDevice(device);
         alertaDevice.setSensor(sensor);
-        alertaDevice.setData_hora(localDate);
+        alertaDevice.setData_hora(new Timestamp(cal.getTimeInMillis()));
         alertaDevice.processado(0);
         alertaDeviceRepository.save(alertaDevice);
     }

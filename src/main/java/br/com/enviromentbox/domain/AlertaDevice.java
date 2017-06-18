@@ -6,6 +6,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -26,7 +28,7 @@ public class AlertaDevice implements Serializable {
 
     @NotNull
     @Column(name = "data_hora", nullable = false)
-    private LocalDate data_hora;
+    private Timestamp data_hora;
 
     @NotNull
     @Min(value = 0)
@@ -50,16 +52,16 @@ public class AlertaDevice implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getData_hora() {
+    public Timestamp getData_hora() {
         return data_hora;
     }
 
-    public AlertaDevice data_hora(LocalDate data_hora) {
+    public AlertaDevice data_hora(Timestamp data_hora) {
         this.data_hora = data_hora;
         return this;
     }
 
-    public void setData_hora(LocalDate data_hora) {
+    public void setData_hora(Timestamp data_hora) {
         this.data_hora = data_hora;
     }
 
