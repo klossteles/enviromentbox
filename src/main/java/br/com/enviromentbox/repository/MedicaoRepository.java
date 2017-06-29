@@ -44,4 +44,7 @@ public interface MedicaoRepository extends JpaRepository<Medicao, Long> {
 
     @Query(value = "SELECT avg(m.valor) as media FROM medicao m JOIN sensor s ON s.id = m.sensor_id JOIN tipo_sensor ts ON ts.id = s.id_tipo_sensor WHERE m.device_id = :device_id AND ts.id= :id_tipo_sensor AND m.data_hora_medicao >= :data_hora_medicao", nativeQuery = true)
     BigDecimal consultaMediaAlerta(@Param("device_id") Long device_id, @Param("id_tipo_sensor") Long id_tipo_sensor, @Param("data_hora_medicao") @Temporal(TemporalType.TIMESTAMP) Date data_hora_medicao);
+
+    @Query(value = "select m.valor as valor from medicao m join sensor s on s.id = m.sensor_id join tipo_sensor ts on ts.id = s.id_tipo_sensor where m.device_id = :device_id  and ts.id = :id_tipo_sensor ORDER BY data_hora_medicao DESC limit 3", nativeQuery = true)
+    List<BigDecimal> consultarMediaAlertaMonoxido(@Param("device_id") Long device_id, @Param("id_tipo_sensor") Long id_tipo_sensor);
 }

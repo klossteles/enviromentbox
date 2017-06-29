@@ -132,7 +132,15 @@ public class MedicaoServiceImpl implements MedicaoService {
         cal = Calendar.getInstance();
         cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) - numHoras);
         cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) - numMinutos);
-        BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
+        //        BUSCA AS TRES ULTIMAS MEDICOES DE MONOXIDO DE CARBONO E FAZ A MÉDIA DESSES VALORES
+        List<BigDecimal> list = medicaoRepository.consultarMediaAlertaMonoxido(device_id.longValue(), id_tipo_sensor.longValue());
+        BigDecimal mediaAlerta = new BigDecimal(0);
+        for (int i = 0; i < list.size() ; i++){
+            mediaAlerta = mediaAlerta.add((BigDecimal) list.get(i));
+//            mediaAlerta = mediaAlerta.add(new BigDecimal((BigInteger) obj[0]));
+        }
+        mediaAlerta = mediaAlerta.divide(new BigDecimal(list.size()), 2, BigDecimal.ROUND_UP);
+//        BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
         Boolean possuiAlertaNaoProcessado = verificaSePossuiAlertaNaoProcessado(device_id.longValue(), idSensor.longValue());
         if(mediaAlerta != null && mediaAlerta.compareTo(BigDecimal.valueOf(numPart)) > 0 && !possuiAlertaNaoProcessado){
             StringBuilder strBuilder = new StringBuilder();
