@@ -5,5 +5,5 @@ package br.com.enviromentbox.service;
  */
 public interface AlertaDeviceService {
     String consultarAlertasNaoProcessadosByDeviceId(Long device_id);
-    void processarAlerta(Long idAlerta);
+    String processarAlerta(Long idAlerta);
 }

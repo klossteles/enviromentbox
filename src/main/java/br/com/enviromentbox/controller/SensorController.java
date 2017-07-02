@@ -20,4 +20,9 @@ public class SensorController {
     public String consultaMedicoesByDeviceId(@PathVariable("device_id") Long device_id) {
         return sensorService.consultarSensoresByDeviceId(device_id.longValue());
     }
+
+    @RequestMapping(value = "/consultarSensoresByDeviceIdFiltradas/{device_id}/{data_hora_medicao_inicial}/{data_hora_medicao_final}", method = RequestMethod.GET)
+    public String consultaMedicoesByDeviceIdFiltradas(@PathVariable("device_id") Long device_id, @PathVariable("data_hora_medicao_inicial") String dataMedicaoInicial, @PathVariable("data_hora_medicao_final") String dataMedicaoFinal) {
+        return sensorService.consultarSensoresByDeviceIdFiltradas(device_id.longValue(), dataMedicaoInicial, dataMedicaoFinal);
+    }
 }

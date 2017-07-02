@@ -5,6 +5,7 @@ import br.com.enviromentbox.domain.AlertaDevice;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 /**
@@ -21,4 +22,7 @@ public interface AlertaDeviceRepository extends JpaRepository<AlertaDevice,Long>
 
     @Query(value = "update alerta_device set processado = 1 where id = :id_alerta", nativeQuery = true)
     void processarAlerta(@Param("id_alerta") Long id_alerta);
+
+    @Query(value = "select ad.id as id_alerta from alerta_device ad join device d on d.id = ad.device_id join sensor s on s.id = ad.sensor_id where d.id = :id_device and  s.id = :id_sensor and ad.processado = :processado", nativeQuery = true)
+    Long getLastIdAlertaDeviceSensor(@Param("id_device") Long device_id, @Param("id_sensor") Long idSensor, @Param("processado") int i);
 }
