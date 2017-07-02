@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -237,9 +238,6 @@ public class MedicaoServiceImpl implements MedicaoService {
     }
 
     private void gerarAlerta(BigInteger idSensor, BigInteger device_id, StringBuilder strBuilder, String deviceToken) {
-        PushyAPI pushyAPI = new PushyAPI();
-        pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
-
         Device device = new Device();
         device.setId(device_id.longValue());
         Sensor sensor = new Sensor();
@@ -251,6 +249,12 @@ public class MedicaoServiceImpl implements MedicaoService {
         alertaDevice.setData_hora(new Timestamp(cal.getTimeInMillis()));
         alertaDevice.processado(0);
         alertaDeviceRepository.save(alertaDevice);
+
+        Long idAlerta = alertaDeviceRepository.getLastIdAlertaDeviceSensor(device_id.longValue(), idSensor.longValue(), 0);
+        strBuilder.append("#").append(idAlerta);
+
+        PushyAPI pushyAPI = new PushyAPI();
+        pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
     }
 
     @Override
@@ -288,8 +292,8 @@ public class MedicaoServiceImpl implements MedicaoService {
         try {
             ArrayList<Object[]> medicoes = medicaoRepository.consultarMedicoesFiltradas(device_id,  dataHoraInicial, dataHoraFinal, sensor_id.longValue());
             JSONArray jsArray = new JSONArray();
-            formataMedicoes(medicoes, jsArray);
-            jsonObject.put("MEDICOES", jsArray.toString());
+            formataMedicoesFiltradas(medicoes, jsArray);
+            jsonObject.put("MEDICOES", jsArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -354,6 +358,61 @@ public class MedicaoServiceImpl implements MedicaoService {
             jsArray.put(medicao);
         }
     }
+
+    private void formataMedicoesFiltradas(ArrayList<Object[]> medicoes, JSONArray jsArray) throws JSONException {
+        for(int i = 0 ; i < medicoes.size() ; ){
+            JSONObject medicao = new JSONObject();
+            Object[] obji = medicoes.get(i);
+            Date datai = (Date) obji[2];
+            medicao.put("DATA_HORA_MEDICAO", formataData(getDateWithoutTime(datai)));
+            for(int j = i ; j < medicoes.size() ; j++){
+                Object[] objj = medicoes.get(j);
+                Date dataj = (Date) objj[2];
+                if(!getDateWithoutTime(datai).equals(getDateWithoutTime(dataj))){
+                    medicao.put("VALOR", getValorMedicoesFromArray(medicoes.subList(i, j-1)));
+                    i = j;
+                    break;
+                }else if(j + 1 == medicoes.size()){
+//                    Se o dia é igual e o tamanho de j é igual ao tamanho do array deve-se inserir o
+//                      subarray apartir de i até o final do array
+                    medicao.put("VALOR", getValorMedicoesFromArray(medicoes.subList(i, j-1)));
+                    i = j + 1;
+                    break;
+                }
+            }
+            jsArray.put(medicao);
+        }
+    }
+
+    private static String formataData(Date data){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String string = dateFormat.format(data);
+        return string;
+    }
+
+    public static Date getDateWithoutTime(Date data) {
+        Date res = data;
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(data);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        res = calendar.getTime();
+
+        return res;
+    }
+
+    private ArrayList<BigDecimal> getValorMedicoesFromArray(List<Object[]> medicoes){
+        ArrayList<BigDecimal> valores = new ArrayList<>();
+        for(Object[] obj : medicoes){
+            valores.add((BigDecimal) obj[1]);
+        }
+        return valores;
+    }
+
 
     @Override
     public String consultarDadosMedicoesBySensor(Long device_id, Long sensor_id) {

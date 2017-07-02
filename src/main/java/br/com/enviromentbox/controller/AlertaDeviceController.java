@@ -22,8 +22,8 @@ public class AlertaDeviceController {
     }
 
     @RequestMapping(value = "/processarAlerta/{id_alerta}", method = RequestMethod.GET)
-    public void processarAlerta(@PathVariable("id_alerta") Long id_alerta){
-        alertaDeviceService.processarAlerta(id_alerta.longValue());
+    public String processarAlerta(@PathVariable("id_alerta") Long id_alerta){
+        return alertaDeviceService.processarAlerta(id_alerta.longValue());
     }
 
 }

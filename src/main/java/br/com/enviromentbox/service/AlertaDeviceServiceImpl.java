@@ -53,7 +53,12 @@ public class AlertaDeviceServiceImpl implements AlertaDeviceService {
     }
 
     @Override
-    public void processarAlerta(Long idAlerta) {
-        alertaDeviceRepository.processarAlerta(idAlerta);
+    public String processarAlerta(Long idAlerta) {
+        AlertaDevice alertaDevice = alertaDeviceRepository.findOne(idAlerta);
+        alertaDevice.setProcessado(1);
+        alertaDeviceRepository.save(alertaDevice);
+//        alertaDeviceRepository.processarAlerta(idAlerta);
+        String str = "Alerta Processado.";
+        return str;
     }
 }

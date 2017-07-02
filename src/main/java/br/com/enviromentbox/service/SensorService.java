@@ -5,5 +5,6 @@ package br.com.enviromentbox.service;
  */
 public interface SensorService {
     String consultarSensoresByDeviceId(Long device_id);
+    String consultarSensoresByDeviceIdFiltradas(Long device_id, String data_inicial, String data_final);
 }
 

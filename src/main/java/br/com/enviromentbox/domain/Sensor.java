@@ -29,6 +29,7 @@ public class Sensor implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
+    @JoinColumn(name = "id_tipo_sensor", referencedColumnName = "id")
     private TipoSensor tipoSensor;
 
     public Long getId() {
