@@ -55,6 +55,7 @@ public class MedicaoServiceImpl implements MedicaoService {
         }catch (Exception e){
             System.out.println("Erro ao converter valores");
             e.printStackTrace();
+            return;
         }
 
 //        if (strArr[0].contains("id_device")) {
@@ -136,11 +137,13 @@ public class MedicaoServiceImpl implements MedicaoService {
         //        BUSCA AS TRES ULTIMAS MEDICOES DE MONOXIDO DE CARBONO E FAZ A MÉDIA DESSES VALORES
         List<BigDecimal> list = medicaoRepository.consultarMediaAlertaMonoxido(device_id.longValue(), id_tipo_sensor.longValue());
         BigDecimal mediaAlerta = new BigDecimal(0);
-        for (int i = 0; i < list.size() ; i++){
-            mediaAlerta = mediaAlerta.add((BigDecimal) list.get(i));
+        if(list.size() > 0){
+            for (int i = 0; i < list.size() ; i++){
+                mediaAlerta = mediaAlerta.add((BigDecimal) list.get(i));
 //            mediaAlerta = mediaAlerta.add(new BigDecimal((BigInteger) obj[0]));
+            }
+            mediaAlerta = mediaAlerta.divide(new BigDecimal(list.size()), 2, BigDecimal.ROUND_UP);
         }
-        mediaAlerta = mediaAlerta.divide(new BigDecimal(list.size()), 2, BigDecimal.ROUND_UP);
 //        BigDecimal mediaAlerta = medicaoRepository.consultaMediaAlerta(device_id.longValue(), id_tipo_sensor.longValue(), new Timestamp(cal.getTimeInMillis()));
         Boolean possuiAlertaNaoProcessado = verificaSePossuiAlertaNaoProcessado(device_id.longValue(), idSensor.longValue());
         if(mediaAlerta != null && mediaAlerta.compareTo(BigDecimal.valueOf(numPart)) > 0 && !possuiAlertaNaoProcessado){
