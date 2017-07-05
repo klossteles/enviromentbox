@@ -257,7 +257,7 @@ public class MedicaoServiceImpl implements MedicaoService {
         strBuilder.append("#").append(idAlerta);
 
         PushyAPI pushyAPI = new PushyAPI();
-//        pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
+        pushyAPI.sendAlertaPush(strBuilder.toString(), deviceToken);
     }
 
     @Override
