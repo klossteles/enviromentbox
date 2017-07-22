@@ -378,7 +378,7 @@ public class MedicaoServiceImpl implements MedicaoService {
                 }else if(j + 1 == medicoes.size()){
 //                    Se o dia é igual e o tamanho de j é igual ao tamanho do array deve-se inserir o
 //                      subarray apartir de i até o final do array
-                    medicao.put("VALOR", getValorMedicoesFromArray(medicoes.subList(i, j-1)));
+                    medicao.put("VALOR", getValorMedicoesFromArray(medicoes.subList(i, j)));
                     i = j + 1;
                     break;
                 }
